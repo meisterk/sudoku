@@ -10,12 +10,16 @@ var feldMitNullen = function () {
 
 // erzeugt HTML-Tabelle aus Array
 var tabelle = function (daten) {
-    var text = "<table>";
+    var text = "<table class='table table-bordered table-condensed'>";
     for (var zeile = 0; zeile <= 8; zeile++) {
         text += "<tr>";
         for (var spalte = 0; spalte <= 8; spalte++) {
-            text += "<td>";
             var i = zeile * 9 + spalte;
+            var background = '';
+            if((spalteQ(i) + zeileQ(i))%2 ===0){
+                background = ' active';
+            }
+            text += "<td class='text-center" + background + "'>";
             text += daten[i];
             text += "</td>";
         }
@@ -23,6 +27,31 @@ var tabelle = function (daten) {
     }
     text += "</table>";
     return text;
+};
+
+// berechnet den Spaltenindex
+// eines kleinen Quadrats
+// 000 111 222
+// 000 111 222
+// 000 111 222
+// ...
+var spalteQ = function(position){
+    return ((position - position % 3) % 9) / 3;
+};
+
+// berechnet den Zeilenindex
+// eines kleinen Quadrats
+// 000 000 000
+// 000 ...
+// 000
+// 111
+// 111
+// 111
+// 222
+// 222
+// 222
+var zeileQ = function(position){
+    return (position - position % 27) / 27;
 };
 
 // prüft, ob zahl an position
